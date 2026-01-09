@@ -348,10 +348,10 @@ add_action('admin_init', function() {
   /* Weitere Optionen */
   add_settings_section('kme_more', 'Weitere Optionen', '__return_false', 'kme-settings');
   add_settings_field('show_location', 'Eventstandort anzeigen', 'kme_field_toggle', 'kme-settings', 'kme_more', [
-    'key'=>'show_location','desc'=>'Zeigt den Standort vom Anlass an.'
+    'key'=>'show_location','desc'=>'Ein-/Ausblenden vom Event-Standort.'
   ]);
   add_settings_field('show_external_link', 'URL-Link anzeigen', 'kme_field_toggle', 'kme-settings', 'kme_more', [
-    'key'=>'show_external_link','desc'=>'Zeigt/versteckt Links mit .km-external-link (Mobile-Ansicht).'
+    'key'=>'show_external_link','desc'=>'Ein-/Ausblenden der Links.'
   ]);
 
   /* Quelle */
@@ -530,7 +530,7 @@ function kme_render_settings_page() {
                   <div class="km-appointment-name"><?php echo esc_html($day.'.'.$monthS.'.'); ?></div>
                   <div class="km-appointment-type">Auftritt</div>
                   <div class="km-location"><a href="#" target="_blank" rel="noopener">Standort</a></div>
-                  <div class="km-external-link"><a href="https://github.com/Dodofant/wp-konzertmeister-plugin">Mehr Infos</a></div>
+                  <div class="km-external-link"><a href="https://github.com/Dodofant/wp-konzertmeister-plugin">Externer Link</a></div>
                 </div>
               </div>
             </div>
@@ -554,7 +554,7 @@ function kme_render_settings_page() {
                   <div class="km-appointment-name"><?php echo esc_html($day2.'.'.$monthS2.'.'); ?></div>
                   <div class="km-appointment-type">Probe</div>
                   <div class="km-location"><a href="#" target="_blank" rel="noopener">Standort</a></div>
-                  <div class="km-external-link"><a href="https://github.com/Dodofant/wp-konzertmeister-plugin">Mehr Infos</a></div>
+                  <div class="km-external-link"><a href="https://github.com/Dodofant/wp-konzertmeister-plugin">Externer Link</a></div>
                 </div>
               </div>
             </div>
