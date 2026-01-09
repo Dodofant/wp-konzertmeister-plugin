@@ -1,0 +1,75 @@
+/* ---------- Grundlayout & Formular ---------- */
+.kme-wrap .kme-form .form-table th {
+    padding-top: 14px;
+  }
+  .kme-wrap .kme-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .kme-wrap .kme-field .description {
+    width: 100%;
+    margin: 6px 0 0;
+    color: #666;
+  }
+  
+  /* Color-Picker + Freitext (Alpha im Textfeld möglich) */
+  .kme-wrap .kme-colorpair input[type="color"] {
+    width: 48px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    background: #fff;
+  }
+  
+  /* ---------- Zwei Spalten (50/50) ---------- */
+  .kme-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 50 / 50 */
+    gap: 24px;
+    margin-top: 12px;
+    align-items: start;
+  }
+  
+  /* Linke Spalte: Form */
+  .kme-col.kme-left { min-width: 0; }
+  
+  /* Rechte Spalte: ganze Spalte sticky */
+  .kme-col.kme-right {
+    position: sticky;
+    top: 32px;
+    height: max-content;
+    align-self: start;
+    padding-top: 8px;
+  }
+  
+  /* ---------- Vorschau ---------- */
+    .kme-preview {
+    position: static;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .kme-preview h2 { margin: 0 0 12px 0; }
+  
+  /* Die Vorschau-Box */
+  .kme-preview .km-appointment-list.proxied {
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  
+  /* ---------- Responsive: unter 960px ---------- */
+  @media (max-width: 960px) {
+    .kme-grid { grid-template-columns: 1fr; }
+    .kme-col.kme-right {
+      position: static;
+      top: auto;
+    }
+    .kme-preview {
+      max-width: 100%;
+    }
+  }
+  
