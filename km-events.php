@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: Konzertmeister Events
- * Description: Holt die Konzertmeister-Termine als HTML und rendert sie ohne iFrame.
- *              Styling per CSS-Variablen; Farben, Trenner, Rahmen & Hover im Admin (KM Events).
- * Version:     2.6.0
+ * Plugin Name:     Konzertmeister Events
+ * Description:     Holt die Konzertmeister-Termine als HTML und rendert sie ohne iFrame. Das Design wird über das WordPress-Backend (KM Events) inkl. Presets und Live-Vorschau gesteuert.
+ * Version:         3.0.0
  * Requires at least: 6.5
- * Requires PHP: 8.0
- * License:     GPLv2 or later
- * Author:      Pascal Heitzmann
- * Author URI:  https://heizi.ch/
+ * Requires PHP:    8.0
+ * License:         GPLv3 or later
+ * License URI:     https://www.gnu.org/licenses/gpl-3.0.html
+ * Author:          Pascal Heitzmann
+ * Author URI:      https://heizi.ch/
  */
 
 if (!defined('ABSPATH')) { exit; }
@@ -17,7 +17,7 @@ define('KME_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('KME_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('KME_OPTION_KEY', 'kme_options');
 
-/** Defaults – dein Standard */
+/** Defaults */
 function kme_default_options() {
   return [
     // Allgemeine Farben (HEX/RGB/RGBA/HSL)
@@ -29,6 +29,8 @@ function kme_default_options() {
     // Toggles
     'enable_background'  => 1,
     'show_location'      => 1,
+    'show_external_link' => 1,
+    'hide_external_link_mobile' => 1,
 
     // Horizontale Trenner
     'sep_h_enabled'      => 1,
@@ -47,7 +49,7 @@ function kme_default_options() {
     // Hover
     'hover_effect'       => 'none', // none|glow|lift|shade|underline
 
-    // KM URL
+    // Konzertmeister API-URL
     'km_url'             => '',
   ];
 }
@@ -62,7 +64,7 @@ add_shortcode('km_events', function() {
   $o = kme_get_options();
 
   // Frontend-CSS laden
-  wp_enqueue_style('konzertmeister-events', KME_PLUGIN_URL . 'km-events.css', [], '2.6.0');
+  wp_enqueue_style('konzertmeister-events', KME_PLUGIN_URL . 'km-events.css', [], '3.0.0');
 
   // CSS-Variablen generieren
   $bg   = !empty($o['enable_background']) ? $o['background_color'] : 'transparent';
@@ -87,13 +89,15 @@ add_shortcode('km_events', function() {
   // Wrapper-Klassen
   $cls = trim(
     (!empty($o['show_location']) ? 'kme-show-location' : 'kme-hide-location').' '.
+    (!empty($o['show_external_link']) ? 'kme-show-extlink' : 'kme-hide-extlink').' '.
+    (!empty($o['hide_external_link_mobile']) ? 'kme-hide-extlink-mobile' : 'kme-show-extlink-mobile').' '.
     (!empty($o['border_enabled'])? 'kme-border-on' : 'kme-border-off').' '.
     (!empty($o['sep_h_enabled']) ? 'kme-sep-h-on'  : 'kme-sep-h-off').' '.
     (!empty($o['sep_v_enabled']) ? 'kme-sep-v-on'  : 'kme-sep-v-off').' '.
     ('kme-hover-'.preg_replace('/[^a-z]/','', strtolower($o['hover_effect'])))
   );
 
-  // Falls keine URL gesetzt wurde
+  // Falls keine API-URL gesetzt wurde
   if (empty($o['km_url'])) {
     $msg = current_user_can('manage_options')
       ? 'Bitte die Konzertmeister-URL unter <strong>KM Events</strong> eintragen.'
@@ -101,8 +105,8 @@ add_shortcode('km_events', function() {
     return '<div class="km-appointment-list proxied '.$cls.'"><div class="km-no-events">'.$msg.'</div></div>';
   }
 
-  // KM abrufen
-  $ua = 'WP-Konzertmeister-Events/2.6.0 (+'.get_bloginfo('name').')';
+  // Konzertmeister abrufen
+  $ua = 'WP-Konzertmeister-Events/3.0.0 (+'.get_bloginfo('name').')';
   $resp = wp_remote_get($o['km_url'], [
     'timeout'   => 12,
     'headers'   => ['Accept'=>'text/html','User-Agent'=>$ua],
@@ -116,7 +120,7 @@ add_shortcode('km_events', function() {
     return '<div class="km-appointment-list proxied '.$cls.'"><div class="km-no-events">Aktuell sind keine Termine vorhanden.</div></div>';
   }
 
-  // Bereinigung & Extrakt der km-appointment-list
+  // Bereinigung & Auslesen der API-URL
   $clean_html = $html;
   if (class_exists('DOMDocument')) {
     libxml_use_internal_errors(true);
@@ -136,7 +140,7 @@ add_shortcode('km_events', function() {
     foreach ($xp->query('//*[contains(concat(" ", normalize-space(@class), " "), " list-footer ")]') as $n) {
       if ($n->parentNode) { $n->parentNode->removeChild($n); }
     }
-    // Nur der Inhalt innerhalb des Containers
+    // Nur Inhalt innerhalb des Containers
     $container = $xp->query('//*[contains(concat(" ", normalize-space(@class), " "), " km-appointment-list ")]')->item(0);
     if ($container) {
       $inner = '';

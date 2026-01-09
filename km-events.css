@@ -1,4 +1,4 @@
-/* ===== Box & Farben ===== */
+/* ---------- Box & Farben ---------- */
 .km-appointment-list.proxied {
   color: var(--kme-text);
   background: var(--kme-bg);
@@ -9,22 +9,10 @@
   border: var(--kme-border-width) solid var(--kme-border-color);
 }
 
-/* Footer ausblenden */
+/* ---------- Footer ---------- */
 .km-appointment-list.proxied .list-footer { display: none !important; }
 
-/* ===== Horizontale Trenner ===== */
-.km-appointment-list.proxied.kme-sep-h-on > * + * {
-  border-top: var(--kme-sep-h-width) solid var(--kme-sep);
-  margin-top: .75rem;
-  padding-top: .75rem;
-}
-.km-appointment-list.proxied.kme-sep-h-off > * + * {
-  border-top: none;
-  margin-top: .5rem;
-  padding-top: .5rem;
-}
-
-/* ===== Events ===== */
+/* ---------- Events ---------- */
 .km-appointment-list.proxied .km-list-item,
 .km-appointment-list.proxied .km-appointment,
 .km-appointment-list.proxied .km-item {
@@ -36,7 +24,7 @@
   padding: 14px 0;
 }
 
-/* Linke Spalte (Datum/Badge/Zeit) */
+/* ---------- Linke Spalte ---------- */
 .km-appointment-list.proxied .km-app-date.list-item-link {
   display: flex !important;
   flex-direction: column !important;
@@ -65,7 +53,7 @@
 .km-appointment-list.proxied .km-date-month .km-month { font-size: 12px; opacity: .9; margin-top: 2px; }
 .km-appointment-list.proxied .km-app-date .km-time { font-size: 12px; margin-top: 6px; opacity: .85; }
 
-/* Rechte Spalte – Grundlayout */
+/* ---------- Rechte Spalte ---------- */
 .km-appointment-list.proxied .km-app-main {
   display: grid !important;
   grid-template-columns: 1fr auto;
@@ -76,12 +64,24 @@
   min-width: 0;
 }
 
-/* Vertikaler Trenner */
+/* ---------- Horizontale Trenner ---------- */
+.km-appointment-list.proxied.kme-sep-h-on > * + * {
+  border-top: var(--kme-sep-h-width) solid var(--kme-sep);
+  margin-top: .75rem;
+  padding-top: .75rem;
+}
+.km-appointment-list.proxied.kme-sep-h-off > * + * {
+  border-top: none;
+  margin-top: .5rem;
+  padding-top: .5rem;
+}
+
+/* ---------- Vertikaler Trenner ---------- */
 .km-appointment-list.proxied.kme-sep-v-on  .km-attendance-indicator { border-left: var(--kme-sep-v-width) solid var(--kme-sep); }
 .km-appointment-list.proxied.kme-sep-v-off .km-attendance-indicator { border-left: none; }
 .km-appointment-list.proxied .km-attendance-indicator { align-self: stretch !important; display: block; padding-left: 20px; }
 
-/* ===== Header-Inhalt ===== */
+/* ---------- Header-Inhalt ---------- */
 .km-appointment-list.proxied .km-appointment-header {
   display: flex !important;
   flex-wrap: wrap;
@@ -117,7 +117,7 @@
 
 .km-appointment-list.proxied.kme-hide-location .km-location { display:none !important; }
 
-/* ===== Fallback (Frontend) ===== */
+/* ---------- Fallback (Frontend) ---------- */
 .km-appointment-list.proxied .km-no-events {
   text-align:center; padding:2rem; font-size:1.1rem; font-weight:600;
   color:var(--kme-text); opacity:.9;
@@ -126,8 +126,8 @@
   background: color-mix(in oklab, var(--kme-bg) 75%, transparent);
 }
 
-/* ===== Hover-Effekte ===== */
-.km-appointment-list.proxied.kme-hover-none .km-list-item:hover {}
+/* ---------- Hover-Effekte ---------- */
+.km-appointment-list.proxied.kme-hover-none .km-list-item:hover {} */
 
 .km-appointment-list.proxied.kme-hover-glow .km-list-item { transition: box-shadow .2s ease; }
 .km-appointment-list.proxied.kme-hover-glow .km-list-item:hover {
@@ -154,4 +154,9 @@
 }
 .km-appointment-list.proxied.kme-hover-underline .km-list-item:hover::after {
   background: var(--kme-sep); transform: scaleX(1);
+}
+
+/* ---------- Externe Links ---------- */
+.km-appointment-list.proxied.kme-hide-extlink .km-external-link {
+  display: none !important;
 }

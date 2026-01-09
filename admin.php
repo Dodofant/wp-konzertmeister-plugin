@@ -19,9 +19,9 @@ add_action('admin_enqueue_scripts', function($hook) {
   if ($hook !== 'toplevel_page_kme-settings') return;
 
   // Frontend-CSS (für Vorschau)
-  wp_enqueue_style('konzertmeister-events', KME_PLUGIN_URL . 'km-events.css', [], '2.6.0');
+  wp_enqueue_style('konzertmeister-events', KME_PLUGIN_URL . 'km-events.css', [], '3.0.0');
 
-  // Aktuelle Optionen → Variablen
+  // Aktuelle Optionen
   $o = kme_get_options();
   $bg   = !empty($o['enable_background']) ? $o['background_color'] : 'transparent';
   $bw   = max(0, (int)$o['border_width']).'px';
@@ -32,9 +32,8 @@ add_action('admin_enqueue_scripts', function($hook) {
   wp_add_inline_style('konzertmeister-events', $inline);
 
   // Admin-Styles
-  wp_enqueue_style('kme-admin', KME_PLUGIN_URL . 'admin.css', [], '2.6.0');
+  wp_enqueue_style('kme-admin', KME_PLUGIN_URL . 'admin.css', [], '3.0.0');
 
-  // jQuery + Live-JS inkl. Presets
   wp_enqueue_script('jquery');
   wp_add_inline_script('jquery', <<<'JS'
   jQuery(function($){
@@ -56,7 +55,8 @@ add_action('admin_enqueue_scripts', function($hook) {
         border_width:     1,
         border_radius:    2,
         hover_effect:     'none',
-        show_location:    true
+        show_location:    true,
+        show_external_link: true
       },
     KMdark: {
         label: 'Konzertmeister dunkel',
@@ -74,7 +74,8 @@ add_action('admin_enqueue_scripts', function($hook) {
         border_width:     1,
         border_radius:    2,
         hover_effect:     'none',
-        show_location:    true
+        show_location:    true,
+        show_external_link: true
     },
         violettLight: {
         label: 'Violett Light',
@@ -92,7 +93,8 @@ add_action('admin_enqueue_scripts', function($hook) {
         border_width:     1,
         border_radius:    12,
         hover_effect:     'none',
-        show_location:    true
+        show_location:    true,
+        show_external_link: true
       },
       violettDark: {
         label: 'Violett Dark',
@@ -110,7 +112,8 @@ add_action('admin_enqueue_scripts', function($hook) {
         border_width:     1,
         border_radius:    12,
         hover_effect:     'shade',
-        show_location:    true
+        show_location:    true,
+        show_external_link: true
       },
       creamBrass: {
         label: 'Cream Brass',
@@ -128,7 +131,8 @@ add_action('admin_enqueue_scripts', function($hook) {
         border_width:     1,
         border_radius:    12,
         hover_effect:     'glow',
-        show_location:    true
+        show_location:    true,
+        show_external_link: true
       },
       darkStage: {
         label: 'Dark Stage',
@@ -146,7 +150,8 @@ add_action('admin_enqueue_scripts', function($hook) {
         border_width:     1,
         border_radius:    12,
         hover_effect:     'lift',
-        show_location:    true
+        show_location:    true,
+        show_external_link: true
       }
     };
 
@@ -191,6 +196,8 @@ add_action('admin_enqueue_scripts', function($hook) {
       var $wrap = $('.kme-preview .km-appointment-list.proxied');
       $wrap.toggleClass('kme-show-location', $('input[name="kme_options[show_location]"]').is(':checked'));
       $wrap.toggleClass('kme-hide-location', !$('input[name="kme_options[show_location]"]').is(':checked'));
+      $wrap.toggleClass('kme-show-extlink', $('input[name="kme_options[show_external_link]"]').is(':checked'));
+      $wrap.toggleClass('kme-hide-extlink', !$('input[name="kme_options[show_external_link]"]').is(':checked'));
       $wrap.toggleClass('kme-border-on', $('input[name="kme_options[border_enabled]"]').is(':checked'));
       $wrap.toggleClass('kme-border-off', !$('input[name="kme_options[border_enabled]"]').is(':checked'));
       $wrap.toggleClass('kme-sep-h-on', $('input[name="kme_options[sep_h_enabled]"]').is(':checked'));
@@ -203,7 +210,7 @@ add_action('admin_enqueue_scripts', function($hook) {
            .addClass('kme-hover-'+hover);
     }
 
-    // Color-Picker Textfeld
+    // Color-Picker
     $('.kme-colorpair').each(function(){
       var $pair=$(this), $picker=$pair.find('input[type="color"]'), $text=$pair.find('input[type="text"][name^="kme_options["]');
       var init = normColor($text.val());
@@ -213,9 +220,11 @@ add_action('admin_enqueue_scripts', function($hook) {
     });
 
     // Toggles
-    $('input[name="kme_options[enable_background]"], input[name="kme_options[show_location]"], input[name="kme_options[border_enabled]"], input[name="kme_options[sep_h_enabled]"], input[name="kme_options[sep_v_enabled]"]').on('change', refreshLivePreview);
+    $('input[name="kme_options[enable_background]"], input[name="kme_options[show_location]"], input[name="kme_options[show_external_link]"], input[name="kme_options[border_enabled]"], input[name="kme_options[sep_h_enabled]"], input[name="kme_options[sep_v_enabled]"]').on('change', refreshLivePreview);
     $('input[name="kme_options[border_width]"], input[name="kme_options[border_radius]"], input[name="kme_options[sep_h_width]"], input[name="kme_options[sep_v_width]"]').on('input change', refreshLivePreview);
     $('select[name="kme_options[hover_effect]"]').on('change', refreshLivePreview);
+
+    
 
     // Preset anwenden
     function setCheckbox(name, val){ $('input[name="kme_options['+name+']"]').prop('checked', !!val).trigger('change'); }
@@ -341,6 +350,9 @@ add_action('admin_init', function() {
   add_settings_field('show_location', 'Eventstandort anzeigen', 'kme_field_toggle', 'kme-settings', 'kme_more', [
     'key'=>'show_location','desc'=>'Zeigt den Standort vom Anlass an.'
   ]);
+  add_settings_field('show_external_link', 'URL-Link anzeigen', 'kme_field_toggle', 'kme-settings', 'kme_more', [
+    'key'=>'show_external_link','desc'=>'Zeigt/versteckt Links mit .km-external-link (Mobile-Ansicht).'
+  ]);
 
   /* Quelle */
   add_settings_section('kme_source', 'Quelle', '__return_false', 'kme-settings');
@@ -349,7 +361,7 @@ add_action('admin_init', function() {
   ]);
 });
 
-/** Sanitizer – erlaubt sichere CSS-Farben inkl. Alpha */
+/** Sanitizer – erlaubt sichere Farben */
 function kme_sanitize_color($v) {
   $v = trim((string)$v);
   if ($v === '') return '';
@@ -375,9 +387,10 @@ function kme_sanitize_options($input) {
   }
 
   // Toggles
-  foreach (['enable_background','show_location','border_enabled','sep_h_enabled','sep_v_enabled'] as $k) {
+  foreach (['enable_background','show_location','show_external_link','border_enabled','sep_h_enabled','sep_v_enabled'] as $k) {
     $out[$k] = !empty($input[$k]) ? 1 : 0;
   }
+  
 
   // Zahlen
   foreach (['border_width','border_radius','sep_h_width','sep_v_width'] as $k) {
@@ -460,7 +473,7 @@ function kme_field_select($args){
   echo '</div>';
 }
 
-/** Settings-Seite */
+/* Settingspahe */
 function kme_render_settings_page() {
   if (!current_user_can('manage_options')) return;
 
@@ -477,10 +490,11 @@ function kme_render_settings_page() {
     (!empty($o['sep_v_enabled']) ? 'kme-sep-v-on'  : 'kme-sep-v-off').' '.
     ('kme-hover-'.preg_replace('/[^a-z]/','', strtolower($o['hover_effect'])))
   );
-  ?>
+  ?> 
+
+  <!-- DEMO Einträge -->
   <div class="wrap kme-wrap">
     <h1>Konzertmeister Events – Einstellungen</h1>
-
     <div class="kme-grid">
       <div class="kme-col kme-left">
         <form method="post" action="options.php" class="kme-form">
@@ -491,8 +505,7 @@ function kme_render_settings_page() {
           ?>
         </form>
       </div>
-
-      <div class="kme-col kme-right">
+     <div class="kme-col kme-right">
         <style id="kme-live-vars"></style>
         <div class="kme-preview">
           <h2>Vorschau</h2>
@@ -517,6 +530,7 @@ function kme_render_settings_page() {
                   <div class="km-appointment-name"><?php echo esc_html($day.'.'.$monthS.'.'); ?></div>
                   <div class="km-appointment-type">Auftritt</div>
                   <div class="km-location"><a href="#" target="_blank" rel="noopener">Standort</a></div>
+                  <div class="km-external-link"><a href="https://github.com/Dodofant/wp-konzertmeister-plugin">Mehr Infos</a></div>
                 </div>
               </div>
             </div>
@@ -540,6 +554,7 @@ function kme_render_settings_page() {
                   <div class="km-appointment-name"><?php echo esc_html($day2.'.'.$monthS2.'.'); ?></div>
                   <div class="km-appointment-type">Probe</div>
                   <div class="km-location"><a href="#" target="_blank" rel="noopener">Standort</a></div>
+                  <div class="km-external-link"><a href="https://github.com/Dodofant/wp-konzertmeister-plugin">Mehr Infos</a></div>
                 </div>
               </div>
             </div>

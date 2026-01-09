@@ -1,103 +1,119 @@
 # Konzertmeister Events
 
 Holt die Konzertmeister-Termine als HTML (ohne iFrame) und rendert sie sauber in deinem WordPress-Theme.  
-Das Design steuerst du bequem im Admin-Menü **KM Events**: Farben, Trenner, Rahmen, Hover-Effekte, Presets, Standort-Link – alles mit Live-Vorschau.
+Das Design steuerst du vollständig im Admin-Menü **KM Events** – inklusive Live-Vorschau, Presets und Mobile-spezifischen Optionen.
 
-- **Version:** 2.6.0  
+- **Version:** 3.0.0  
 - **Erfordert WordPress:** 6.5+  
 - **Erfordert PHP:** 8.0+  
-- **Lizenz:** GPLv2 oder später  
-- **Autor:** Pascal Heitzmann – [heizi.ch](https://heizi.ch/)
+- **Lizenz:** GPLv3  
+- **Autor:** Pascal Heitzmann – https://heizi.ch/
 
 ---
 
-## Features
+## Highlights
 
-- 🔌 **Shortcode** `[km_events]` – Termine überall einbinden  
-- 🎨 **Live-Styling im Backend**: Text, Hintergrund (inkl. Transparenz via RGBA/HSL), Badge, Trenner, Rahmen, Hover  
-- ↔️ **Vertikale & horizontale Trenner** einzeln steuerbar (ein-/ausblenden, Breite in px)  
-- 🟣 **Presets** (Konzertmeister hell/dunkel, Violett, Cream Brass, Dark Stage) – 1 Klick  
-- 📌 **Sticky-Vorschau** im Admin, max. 600 px breit, scrollt mit  
-- 🧭 **Standort-Link** ein-/ausblendbar  
-- 🧩 **CSS-Variablen** → extra fein anpassbar im Theme  
+- 🔌 **Shortcode** `[km_events]`
+- 🎨 **Live-Styling im Backend** (Farben, Transparenz, Trenner, Rahmen, Hover)
+- 🧩 **CSS-Variablen-basiert** – ideal für Theme-Overrides
+- 🟣 **Design-Presets** mit einem Klick
+- 📌 **Sticky Live-Vorschau** im Admin (scrollt mit)
+- 📱 **Mobile-Optimierungen**
+  - Externe Links auf Mobile ausblendbar
+  - Separate Toggle-Logik für Desktop vs. Mobile
+- 🧭 **Standort-Link** separat ein-/ausblendbar
+- 🧼 **Sauberes HTML ohne iFrame**
+- 🛡️ **Sicheres Sanitizing** der Inhalte
 
 ---
 
 ## Installation
 
-1. Ordner **`konzertmeister-events`** nach `wp-content/plugins/` kopieren.  
-   Struktur:
-   ```
-   konzertmeister-events/
-   ├─ km-events.php
-   ├─ admin.php
-   ├─ km-events.css
-   ├─ admin.css
-   └─ assets/
-      └─ menu-icon.svg
-   ```
-2. In WordPress **aktivieren**.  
-3. Menü **KM Events** öffnen → **Konzertmeister-URL** eintragen (vollständige Embed-URL inkl. `hash`).  
-4. Farben/Optionen einstellen → **Speichern**.  
-5. Shortcode in Seite oder Beitrag einfügen:
+1. Ordner **`konzertmeister-events`** nach  
+   `wp-content/plugins/` kopieren
 
-   ```txt
-   [km_events]
-   ```
+2. Plugin in WordPress aktivieren
 
----
+3. Menü **KM Events** öffnen  
+   → Konzertmeister-URL (vollständige Embed-URL inkl. `hash`) eintragen
 
-## Einstellungen
+4. Design & Optionen konfigurieren  
+   → **Speichern**
 
-### Presets
-- Dropdown **Stilvorlage** + Button „Anwenden“.  
-- Enthalten:  
-  - Konzertmeister hell  
-  - Konzertmeister dunkel  
-  - Violett Light  
-  - Violett Dark  
-  - Cream Brass  
-  - Dark Stage  
-
-### Allgemeine Farben
-- **Textfarbe**  
-- **Hintergrund** (inkl. Transparenz via RGBA)  
-- **Hintergrund aktivieren**  
-- **Badge (Jahr/Wochentag)**
-
-### Trenner
-- **Trennerfarbe** (gemeinsam für vertikal & horizontal)  
-- **Horizontale Linie** (Toggle) + **Linienstärke**  
-- **Vertikale Linie** (Toggle) + **Linienstärke**
-
-### Rahmen
-- **Rahmen aktivieren**  
-- **Rahmenfarbe**, **Breite (px)**, **Radius (px)**
-
-### Hover-Effekt
-- Auswahl: Kein, Glow, Lift, Shade, Underline
-
-### Weitere Optionen
-- **Eventstandort anzeigen** (zeigt `.km-location`)
-
-### Quelle
-- **Konzertmeister-URL** – vollständige Embed-URL (HTTPS, inkl. Hash)
-
----
-
-## Shortcode
+5. Shortcode einfügen:
 
 ```txt
 [km_events]
 ```
 
-*(Keine Attribute nötig – alles via Admin-Menü konfiguriert.)*
+---
+
+## Backend-Einstellungen
+
+### Presets
+Vordefinierte Stilvorlagen, z. B.
+
+- Konzertmeister hell / dunkel
+- Violett Light / Dark
+- Cream Brass
+- Dark Stage
+
+Presets füllen alle Felder automatisch aus (wirksam nach Speichern).
 
 ---
 
-## Styling & CSS-Variablen
+### Allgemeine Farben
+- Textfarbe
+- Hintergrundfarbe (inkl. RGBA / Transparenz)
+- Hintergrund aktivieren
+- Badge-Farbe (Jahr / Wochentag)
 
-Das Plugin nutzt Variablen, die du im Theme überschreiben kannst:
+---
+
+### Trenner
+- Gemeinsame Trennerfarbe
+- Horizontale Trenner
+  - Ein / Aus
+  - Linienstärke (px)
+- Vertikaler Trenner
+  - Ein / Aus
+  - Linienstärke (px)
+
+---
+
+### Rahmen der Liste
+- Rahmen aktivieren
+- Rahmenfarbe
+- Breite (px)
+- Radius (px)
+
+---
+
+### Hover-Effekt
+- Kein
+- Glow
+- Lift
+- Shade
+- Underline
+
+---
+
+### Weitere Optionen
+- Standort-Link anzeigen (`.km-location`)
+- URL-Link anzeigen (`.km-external-link`)
+- URL-Link auf Mobile automatisch ausblenden
+
+---
+
+### Quelle
+- Konzertmeister-URL  
+  (HTTPS, vollständige Embed-URL inkl. Hash)
+
+---
+
+## CSS-Variablen
+
+Alle Styles werden über CSS-Variablen gesteuert:
 
 ```css
 :root {
@@ -115,38 +131,65 @@ Das Plugin nutzt Variablen, die du im Theme überschreiben kannst:
 
 ---
 
+## Mobile-Verhalten
+
+| Element | Desktop | Mobile |
+|-------|--------|--------|
+| Standort-Link | konfigurierbar | konfigurierbar |
+| Externer Link | sichtbar | optional ausblendbar |
+| Hover-Effekte | aktiv | deaktiviert / neutral |
+
+---
+
 ## Sicherheit & Datenschutz
 
-- HTML von Konzertmeister wird **bereinigt** (`wp_kses`).  
-- Branding-Footer (`.list-footer`) wird ausgeblendet.  
-- **Keine personenbezogenen Daten** gespeichert. Nur die URL liegt in den Plugin-Optionen.  
+- Inhalte werden per `wp_kses` bereinigt
+- Kein Tracking, keine Cookies
+- Keine personenbezogenen Daten
+- Nur die Konzertmeister-URL wird gespeichert
+
+---
+
+## Inhalt
+   konzertmeister-events/
+   ├─ km-events.php
+   ├─ admin.php
+   ├─ km-events.css
+   ├─ admin.css
+   └─ assets/
+      └─ menu-icon.svg
 
 ---
 
 ## Changelog
 
-**2.6.0**
-- Sticky-Vorschau im Admin  
-- Neue Presets (Violett Light/Dark, Cream Brass, Dark Stage)  
-- Transparenz bei Farben möglich  
-- Vertikaler Trenner ein-/ausblendbar  
-- Admin-UI überarbeitet, deutschsprachige Labels
+### 3.0.0
+- Mobile-spezifische Steuerung für externe Links
+- Separate Toggles für Desktop / Mobile
+- Erweiterte Presets
+- Layout-Feinschliff (Standort unter Eventnamen)
+- Admin-UI stabilisiert
+- Vorbereitung für zukünftige Erweiterungen
 
-**2.5.x**
-- Rahmen: aktivierbar, Farbe, Breite, Radius  
-- Hover-Effekte: Glow, Lift, Shade, Underline  
-- Standort-Link ein-/ausblendbar  
-- Live-Vorschau eingeführt  
+### 2.6.x
+- Sticky Admin-Vorschau
+- Presets
+- Rahmen-, Trenner- und Hover-Optionen
+- Live-Vorschau
 
 ---
 
 ## Lizenz
 
-GPLv2 oder später – freie Nutzung, Änderung und Weitergabe.
+Dieses Plugin ist freie Software und steht unter der  
+**GNU General Public License Version 3 (GPLv3)**.
+
+Du darfst es verwenden, verändern und weitergeben,  
+sofern die Lizenzbedingungen eingehalten werden.
 
 ---
 
 ## Haftungsausschluss
 
-Dieses Plugin hängt vom Markup der Konzertmeister-Embed-Ausgabe ab.  
-Falls Konzertmeister Klassen oder Struktur ändert, muss CSS/Parsing ggf. angepasst werden.
+Dieses Plugin basiert auf dem aktuellen HTML-Markup der Konzertmeister-Embed-Ausgabe.  
+Änderungen seitens Konzertmeister können Anpassungen im Plugin erforderlich machen.

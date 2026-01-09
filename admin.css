@@ -1,4 +1,4 @@
-/* ---------- Grundlayout & Formular ---------- */
+/* ---------- Grundlayout ---------- */
 .kme-wrap .kme-form .form-table th {
     padding-top: 14px;
   }
@@ -14,7 +14,7 @@
     color: #666;
   }
   
-  /* Color-Picker + Freitext (Alpha im Textfeld möglich) */
+  /* ---------- Color-Picker ---------- */
   .kme-wrap .kme-colorpair input[type="color"] {
     width: 48px;
     height: 34px;
@@ -33,10 +33,10 @@
     align-items: start;
   }
   
-  /* Linke Spalte: Form */
+  /* ---------- Linke Spalte ---------- */
   .kme-col.kme-left { min-width: 0; }
   
-  /* Rechte Spalte: ganze Spalte sticky */
+  /* ---------- Rechte Spalte: ---------- */
   .kme-col.kme-right {
     position: sticky;
     top: 32px;
@@ -54,14 +54,14 @@
   }
   .kme-preview h2 { margin: 0 0 12px 0; }
   
-  /* Die Vorschau-Box */
+  /* ---------- Vorschau-Box ---------- */
   .kme-preview .km-appointment-list.proxied {
     width: 100%;
     margin: 0 auto;
     padding: 16px;
   }
   
-  /* ---------- Responsive: unter 960px ---------- */
+  /* ---------- Responsive ---------- */
   @media (max-width: 960px) {
     .kme-grid { grid-template-columns: 1fr; }
     .kme-col.kme-right {
